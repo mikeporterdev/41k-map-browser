@@ -68,7 +68,7 @@ const App: React.FC = () => {
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
   const [showOnlyBookmarks, setShowOnlyBookmarks] = useState<boolean>(false);
   const [previousFilters, setPreviousFilters] = useState<{ deployment: string, type: string }>({ deployment: 'All', type: 'All' });
-  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(window.innerWidth > 768);
 
   // Load bookmarks from localStorage when the component mounts
   useEffect(() => {
