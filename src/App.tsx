@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Grid, Icon, Image, Menu, Radio, Segment, Sidebar } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Header, Icon, Image, Menu, Radio, Segment, Sidebar, Sticky } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 type Deployment =
@@ -117,9 +117,14 @@ const App: React.FC = () => {
   return (
     <div>
       {/* Toggle Button for Sidebar */}
-      <Button onClick={() => setSidebarVisible(!sidebarVisible)} style={{ margin: '10px' }}>
-        {sidebarVisible ? 'Close Filters' : 'Open Filters'}
-      </Button>
+      <Sticky>
+        <Header>
+          <Button onClick={() => setSidebarVisible(!sidebarVisible)} style={{ margin: '10px' }}>
+            {sidebarVisible ? 'Close Filters' : 'Open Filters'}
+          </Button>
+        </Header>
+
+      </Sticky>
 
       {/* Sidebar */}
       <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
@@ -167,7 +172,7 @@ const App: React.FC = () => {
             <Checkbox
               label='Show Only Bookmarked'
               checked={showOnlyBookmarks}
-              onChange={(e, { checked }) => handleShowOnlyBookmarksChange(!!checked)}
+              onChange={(_e, { checked }) => handleShowOnlyBookmarksChange(!!checked)}
             />
           </Menu.Item>
         </Sidebar>
