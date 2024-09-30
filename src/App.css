@@ -1,0 +1,15 @@
+/* src/App.css */
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Make the container take the full height of the viewport */
+}
+
+.content-container {
+  flex-grow: 1; /* This makes the content container fill the remaining space */
+  display: flex;
+  justify-content: center; /* Center the ImageGallery horizontally */
+  align-items: flex-start; /* Align the ImageGallery to the top of the content area */
+  padding: 20px;
+  overflow-y: auto; /* Allows scrolling if the content is too large */
+}
