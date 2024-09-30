@@ -9,8 +9,13 @@ type Deployment =
   | 'Tipping Point'
   | 'Sweeping Engagement';
 type Weight = 'Heavy' | 'Medium' | 'Light';
+interface WtcMap {
+  id: number,
+  deployment: Deployment,
+  type: Weight
+}
 
-const images: { id: number, deployment: Deployment, type: Weight }[] = [
+const images: WtcMap[] = [
   {id: 1, deployment: 'Search and Destroy', type: 'Medium'},
   {id: 2, deployment: 'Crucible of Battle', type: 'Medium'},
   {id: 3, deployment: 'Hammer and Anvil', type: 'Medium'},
