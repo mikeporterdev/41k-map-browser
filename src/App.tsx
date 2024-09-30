@@ -80,6 +80,10 @@ const App: React.FC = () => {
         console.error("Failed to parse bookmarks from localStorage", e);
       }
     }
+
+    const bookMarkToggle =localStorage.getItem('bookmarkToggle');
+    if (bookMarkToggle)
+    setShowOnlyBookmarks(JSON.parse(bookMarkToggle));
   }, []);
 
   // Save bookmarks to localStorage whenever bookmarkedIds changes
@@ -104,6 +108,7 @@ const App: React.FC = () => {
       setPreviousFilters({ deployment: deploymentFilter, type: typeFilter });
       setDeploymentFilter('All');
       setTypeFilter('All');
+      localStorage.setItem('bookmarkToggle', JSON.stringify(checked));
     } else {
       setDeploymentFilter(previousFilters.deployment);
       setTypeFilter(previousFilters.type);
