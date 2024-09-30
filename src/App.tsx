@@ -190,7 +190,7 @@ const App: React.FC = () => {
                 <Grid.Column>
                   <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                     {filteredImages.map((image) => (
-                      <div key={image.id} style={{ position: 'relative', marginBottom: '10px' }}>
+                      <div key={image.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', position: 'relative' }}>
                         <Image
                           centered={true}
                           src={`./images/${image.id}.png`}
@@ -200,8 +200,8 @@ const App: React.FC = () => {
                         <Icon
                           name={bookmarkedIds.includes(image.id) ? 'star' : 'star outline'}
                           color='yellow'
-                          size='large'
-                          style={{ position: 'absolute', top: '5px', right: '5px', cursor: 'pointer' }}
+                          size='huge'
+                          style={{ cursor: 'pointer', position: 'absolute', right: '10px' }}
                           onClick={() => handleBookmarkToggle(image.id)}
                         />
                       </div>
