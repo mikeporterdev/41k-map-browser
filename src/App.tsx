@@ -163,7 +163,7 @@ const App: React.FC = () => {
             {filteredImages.map((image) => (
               <div key={image.id} style={{position: 'relative', marginBottom: '10px'}}>
                 <Image
-                  src={`/images/${image.id}.png`}
+                  src={`./images/${image.id}.png`}
                   style={{width: '80%'}}
                   alt={`Image ${image.id}`}
                 />
