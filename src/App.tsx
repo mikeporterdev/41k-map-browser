@@ -200,7 +200,7 @@ const App: React.FC = () => {
                         <Icon
                           name={bookmarkedIds.includes(image.id) ? 'star' : 'star outline'}
                           color='yellow'
-                          size='huge'
+                          size='big'
                           style={{ cursor: 'pointer', position: 'absolute', right: '10px' }}
                           onClick={() => handleBookmarkToggle(image.id)}
                         />
