@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Checkbox, Grid, Icon, Image, Menu, Radio, Segment, Sidebar } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Icon, Image, Menu, Radio, Segment, Sidebar } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 type Deployment =
@@ -63,20 +63,25 @@ const App: React.FC = () => {
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
   const [showOnlyBookmarks, setShowOnlyBookmarks] = useState<boolean>(false);
   const [previousFilters, setPreviousFilters] = useState<{ deployment: string, type: string }>({ deployment: 'All', type: 'All' });
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
 
   // Load bookmarks from localStorage when the component mounts
   useEffect(() => {
     const savedBookmarks = localStorage.getItem('bookmarkedImages');
     if (savedBookmarks) {
-      console.log('loading', bookmarkedIds)
-      setBookmarkedIds(JSON.parse(savedBookmarks));
+      try {
+        setBookmarkedIds(JSON.parse(savedBookmarks));
+      } catch (e) {
+        console.error("Failed to parse bookmarks from localStorage", e);
+      }
     }
   }, []);
 
   // Save bookmarks to localStorage whenever bookmarkedIds changes
   useEffect(() => {
-    console.log('saving', bookmarkedIds)
-    localStorage.setItem('bookmarkedImages', JSON.stringify(bookmarkedIds));
+    if (bookmarkedIds.length > 0) {
+      localStorage.setItem('bookmarkedImages', JSON.stringify(bookmarkedIds));
+    }
   }, [bookmarkedIds]);
 
   const handleDeploymentChange = (value: string) => setDeploymentFilter(value);
@@ -91,12 +96,10 @@ const App: React.FC = () => {
 
   const handleShowOnlyBookmarksChange = (checked: boolean) => {
     if (checked) {
-      // Save the current filters to restore them later
       setPreviousFilters({ deployment: deploymentFilter, type: typeFilter });
       setDeploymentFilter('All');
       setTypeFilter('All');
     } else {
-      // Restore the previous filters
       setDeploymentFilter(previousFilters.deployment);
       setTypeFilter(previousFilters.type);
     }
@@ -110,10 +113,24 @@ const App: React.FC = () => {
     return showOnlyBookmarks ? isBookmarked : matchesFilter;
   });
 
+
   return (
-    <Grid columns={2} style={{height: '100vh'}}>
-      <Grid.Column width={3}>
-        <Sidebar as={Menu} vertical visible>
+    <div>
+      {/* Toggle Button for Sidebar */}
+      <Button onClick={() => setSidebarVisible(!sidebarVisible)} style={{ margin: '10px' }}>
+        {sidebarVisible ? 'Close Filters' : 'Open Filters'}
+      </Button>
+
+      {/* Sidebar */}
+      <Sidebar.Pushable as={Segment} style={{ minHeight: '100vh' }}>
+        <Sidebar
+          as={Menu}
+          animation='overlay'
+          icon='labeled'
+          vertical
+          visible={sidebarVisible}
+          width='thin'
+        >
           <Menu.Item>
             <Menu.Header>Deployment</Menu.Header>
             <Menu.Menu>
@@ -121,7 +138,7 @@ const App: React.FC = () => {
                 <Menu.Item key={option}>
                   <Radio
                     label={option}
-                    name="deploymentFilter"
+                    name='deploymentFilter'
                     checked={deploymentFilter === option}
                     onChange={() => handleDeploymentChange(option)}
                   />
@@ -137,7 +154,7 @@ const App: React.FC = () => {
                 <Menu.Item key={option}>
                   <Radio
                     label={option}
-                    name="typeFilter"
+                    name='typeFilter'
                     checked={typeFilter === option}
                     onChange={() => handleTypeChange(option)}
                   />
@@ -146,41 +163,47 @@ const App: React.FC = () => {
             </Menu.Menu>
           </Menu.Item>
 
-
           <Menu.Item>
             <Checkbox
               label='Show Only Bookmarked'
               checked={showOnlyBookmarks}
-              onChange={(_e, { checked }) => handleShowOnlyBookmarksChange(!!checked)}
+              onChange={(e, { checked }) => handleShowOnlyBookmarksChange(!!checked)}
             />
           </Menu.Item>
         </Sidebar>
-      </Grid.Column>
 
-      <Grid.Column width={12}>
-        <Segment basic>
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-            {filteredImages.map((image) => (
-              <div key={image.id} style={{position: 'relative', marginBottom: '10px'}}>
-                <Image
-                  src={`./images/${image.id}.png`}
-                  style={{width: '80%'}}
-                  alt={`Image ${image.id}`}
-                />
-                <Icon
-                  name={bookmarkedIds.includes(image.id) ? 'star' : 'star outline'}
-                  color="yellow"
-                  size="large"
-                  style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer'}}
-                  onClick={() => handleBookmarkToggle(image.id)}
-                />
-              </div>
-            ))}
-          </div>
-        </Segment>
-      </Grid.Column>
-    </Grid>
+        {/* Main Content */}
+        <Sidebar.Pusher>
+          <Segment basic>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {filteredImages.map((image) => (
+                      <div key={image.id} style={{ position: 'relative', marginBottom: '10px' }}>
+                        <Image
+                          centered={true}
+                          src={`./images/${image.id}.png`}
+                          style={{ width: '80%' }}
+                          alt={`Image ${image.id}`}
+                        />
+                        <Icon
+                          name={bookmarkedIds.includes(image.id) ? 'star' : 'star outline'}
+                          color='yellow'
+                          size='large'
+                          style={{ position: 'absolute', top: '5px', right: '5px', cursor: 'pointer' }}
+                          onClick={() => handleBookmarkToggle(image.id)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+        </Sidebar.Pusher>
+      </Sidebar.Pushable>
+    </div>
   );
 };
-
 export default App;
