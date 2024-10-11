@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Grid, Header, Icon, Image, Menu, Radio, Segment, Sidebar, Sticky } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Header, Menu, Radio, Segment, Sidebar, Sticky } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import { MapRowItem } from './MapRowItem.tsx';
+import { useSearchParams } from 'react-router-dom';
 
-type Deployment =
+export type Deployment =
   'Hammer and Anvil'
   | 'Crucible of Battle'
   | 'Search and Destroy'
   | 'Tipping Point'
   | 'Sweeping Engagement';
-type Weight = 'Heavy' | 'Medium' | 'Light';
-interface WtcMap {
+export type Weight = 'Heavy' | 'Medium' | 'Light';
+export interface WtcMap {
   id: number,
   deployment: Deployment,
   type: Weight
@@ -69,6 +71,9 @@ const App: React.FC = () => {
   const [showOnlyBookmarks, setShowOnlyBookmarks] = useState<boolean>(false);
   const [previousFilters, setPreviousFilters] = useState<{ deployment: string, type: string }>({ deployment: 'All', type: 'All' });
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(window.innerWidth > 768);
+  const [searchParams] = useSearchParams()
+
+  const paramMaps = searchParams.get('maps');
 
   // Load bookmarks from localStorage when the component mounts
   useEffect(() => {
@@ -116,12 +121,22 @@ const App: React.FC = () => {
     setShowOnlyBookmarks(checked);
   };
 
-  const filteredImages = images.filter((image) => {
-    const matchesFilter = (deploymentFilter === 'All' || image.deployment === deploymentFilter) &&
-      (typeFilter === 'All' || image.type === typeFilter);
-    const isBookmarked = bookmarkedIds.includes(image.id);
-    return showOnlyBookmarks ? isBookmarked : matchesFilter;
-  });
+
+  let filteredImages: WtcMap[];
+
+  if (paramMaps && paramMaps.split(",").length > 0) {
+    filteredImages = paramMaps.split(",").map(mapId => {
+      return images.find(image => image.id === Number(mapId))
+    }).filter(i => i !== undefined)
+  } else {
+    filteredImages = images.filter((image) => {
+      const matchesFilter = (deploymentFilter === 'All' || image.deployment === deploymentFilter) &&
+        (typeFilter === 'All' || image.type === typeFilter);
+      const isBookmarked = bookmarkedIds.includes(image.id);
+      return showOnlyBookmarks ? isBookmarked : matchesFilter;
+    });
+
+  }
 
 
   return (
@@ -195,21 +210,8 @@ const App: React.FC = () => {
                 <Grid.Column>
                   <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                     {filteredImages.map((image) => (
-                      <div key={image.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', position: 'relative' }}>
-                        <Image
-                          centered={true}
-                          src={`./images/${image.id}.png`}
-                          style={{ width: '80%' }}
-                          alt={`Image ${image.id}`}
-                        />
-                        <Icon
-                          name={bookmarkedIds.includes(image.id) ? 'star' : 'star outline'}
-                          color='yellow'
-                          size='big'
-                          style={{ cursor: 'pointer', position: 'absolute', right: '10px' }}
-                          onClick={() => handleBookmarkToggle(image.id)}
-                        />
-                      </div>
+                      <MapRowItem key={image.id} image={image} numbers={bookmarkedIds}
+                                  onClick={() => handleBookmarkToggle(image.id)}/>
                     ))}
                   </div>
                 </Grid.Column>
