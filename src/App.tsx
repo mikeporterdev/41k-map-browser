@@ -49,6 +49,7 @@ const images: WtcMap[] = [
   {id: 38, deployment: 'Crucible of Battle', type: 'Light'},
   {id: 39, deployment: 'Hammer and Anvil', type: 'Light'},
   {id: 41, deployment: 'Search and Destroy', type: 'Light'},
+  {id: 42, deployment: 'Crucible of Battle', type: 'Light'},
   {id: 43, deployment: 'Hammer and Anvil', type: 'Light'},
   {id: 45, deployment: 'Search and Destroy', type: 'Light'},
   {id: 46, deployment: 'Crucible of Battle', type: 'Light'},
