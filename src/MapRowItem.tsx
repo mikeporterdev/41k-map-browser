@@ -7,7 +7,7 @@ export class MapRowItem extends React.Component<{ image: WtcMap, numbers: number
     return <div style={{display: 'flex', alignItems: 'center', marginBottom: '10px', position: 'relative'}}>
       <Image
         centered={true}
-        src={`./images/${this.props.image.id}.png`}
+        src={`./images/wtc/${this.props.image.id}.png`}
         style={{width: '80%'}}
         alt={`Image ${this.props.image.id}`}
       />
