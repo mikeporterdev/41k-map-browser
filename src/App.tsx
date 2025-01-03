@@ -9,70 +9,81 @@ export type Deployment =
     | 'Crucible of Battle'
     | 'Search and Destroy'
     | 'Tipping Point'
-    | 'Sweeping Engagement';
+    | 'Sweeping Engagement'
+    | 'Dawn of War';
 export type Weight = 'Heavy' | 'Medium' | 'Light';
 
 export interface MapInfo {
     id: number,
-    deployment: Deployment,
+    deployment: Deployment[],
     type?: Weight
 }
 
 const wtcMaps: MapInfo[] = [
-    {id: 1, deployment: 'Search and Destroy', type: 'Medium'},
-    {id: 2, deployment: 'Crucible of Battle', type: 'Medium'},
-    {id: 3, deployment: 'Hammer and Anvil', type: 'Medium'},
-    {id: 5, deployment: 'Search and Destroy', type: 'Medium'},
-    {id: 6, deployment: 'Crucible of Battle', type: 'Medium'},
-    {id: 7, deployment: 'Hammer and Anvil', type: 'Medium'},
-    {id: 9, deployment: 'Search and Destroy', type: 'Medium'},
-    {id: 10, deployment: 'Crucible of Battle', type: 'Medium'},
-    {id: 11, deployment: 'Hammer and Anvil', type: 'Medium'},
-    {id: 13, deployment: 'Search and Destroy', type: 'Medium'},
-    {id: 14, deployment: 'Crucible of Battle', type: 'Medium'},
-    {id: 15, deployment: 'Hammer and Anvil', type: 'Medium'},
-    {id: 17, deployment: 'Search and Destroy', type: 'Heavy'},
-    {id: 18, deployment: 'Crucible of Battle', type: 'Heavy'},
-    {id: 19, deployment: 'Hammer and Anvil', type: 'Heavy'},
-    {id: 21, deployment: 'Search and Destroy', type: 'Heavy'},
-    {id: 22, deployment: 'Crucible of Battle', type: 'Heavy'},
-    {id: 23, deployment: 'Hammer and Anvil', type: 'Heavy'},
-    {id: 25, deployment: 'Search and Destroy', type: 'Heavy'},
-    {id: 26, deployment: 'Crucible of Battle', type: 'Heavy'},
-    {id: 27, deployment: 'Hammer and Anvil', type: 'Heavy'},
-    {id: 29, deployment: 'Search and Destroy', type: 'Heavy'},
-    {id: 30, deployment: 'Crucible of Battle', type: 'Heavy'},
-    {id: 31, deployment: 'Hammer and Anvil', type: 'Heavy'},
-    {id: 33, deployment: 'Search and Destroy', type: 'Light'},
-    {id: 34, deployment: 'Crucible of Battle', type: 'Light'},
-    {id: 35, deployment: 'Hammer and Anvil', type: 'Light'},
-    {id: 37, deployment: 'Search and Destroy', type: 'Light'},
-    {id: 38, deployment: 'Crucible of Battle', type: 'Light'},
-    {id: 39, deployment: 'Hammer and Anvil', type: 'Light'},
-    {id: 41, deployment: 'Search and Destroy', type: 'Light'},
-    {id: 42, deployment: 'Crucible of Battle', type: 'Light'},
-    {id: 43, deployment: 'Hammer and Anvil', type: 'Light'},
-    {id: 45, deployment: 'Search and Destroy', type: 'Light'},
-    {id: 46, deployment: 'Crucible of Battle', type: 'Light'},
-    {id: 47, deployment: 'Hammer and Anvil', type: 'Light'},
-    {id: 49, deployment: 'Tipping Point', type: 'Heavy'},
-    {id: 50, deployment: 'Tipping Point', type: 'Heavy'},
-    {id: 51, deployment: 'Tipping Point', type: 'Medium'},
-    {id: 52, deployment: 'Tipping Point', type: 'Medium'},
-    {id: 53, deployment: 'Tipping Point', type: 'Medium'},
-    {id: 54, deployment: 'Tipping Point', type: 'Medium'},
-    {id: 55, deployment: 'Tipping Point', type: 'Light'},
-    {id: 56, deployment: 'Tipping Point', type: 'Light'},
-    {id: 57, deployment: 'Sweeping Engagement', type: 'Medium'},
+    {id: 1, deployment: ['Search and Destroy'], type: 'Medium'},
+    {id: 2, deployment: ['Crucible of Battle'], type: 'Medium'},
+    {id: 3, deployment: ['Hammer and Anvil'], type: 'Medium'},
+    {id: 5, deployment: ['Search and Destroy'], type: 'Medium'},
+    {id: 6, deployment: ['Crucible of Battle'], type: 'Medium'},
+    {id: 7, deployment: ['Hammer and Anvil'], type: 'Medium'},
+    {id: 9, deployment: ['Search and Destroy'], type: 'Medium'},
+    {id: 10, deployment: ['Crucible of Battle'], type: 'Medium'},
+    {id: 11, deployment: ['Hammer and Anvil'], type: 'Medium'},
+    {id: 13, deployment: ['Search and Destroy'], type: 'Medium'},
+    {id: 14, deployment: ['Crucible of Battle'], type: 'Medium'},
+    {id: 15, deployment: ['Hammer and Anvil'], type: 'Medium'},
+    {id: 17, deployment: ['Search and Destroy'], type: 'Heavy'},
+    {id: 18, deployment: ['Crucible of Battle'], type: 'Heavy'},
+    {id: 19, deployment: ['Hammer and Anvil'], type: 'Heavy'},
+    {id: 21, deployment: ['Search and Destroy'], type: 'Heavy'},
+    {id: 22, deployment: ['Crucible of Battle'], type: 'Heavy'},
+    {id: 23, deployment: ['Hammer and Anvil'], type: 'Heavy'},
+    {id: 25, deployment: ['Search and Destroy'], type: 'Heavy'},
+    {id: 26, deployment: ['Crucible of Battle'], type: 'Heavy'},
+    {id: 27, deployment: ['Hammer and Anvil'], type: 'Heavy'},
+    {id: 29, deployment: ['Search and Destroy'], type: 'Heavy'},
+    {id: 30, deployment: ['Crucible of Battle'], type: 'Heavy'},
+    {id: 31, deployment: ['Hammer and Anvil'], type: 'Heavy'},
+    {id: 33, deployment: ['Search and Destroy'], type: 'Light'},
+    {id: 34, deployment: ['Crucible of Battle'], type: 'Light'},
+    {id: 35, deployment: ['Hammer and Anvil'], type: 'Light'},
+    {id: 37, deployment: ['Search and Destroy'], type: 'Light'},
+    {id: 38, deployment: ['Crucible of Battle'], type: 'Light'},
+    {id: 39, deployment: ['Hammer and Anvil'], type: 'Light'},
+    {id: 41, deployment: ['Search and Destroy'], type: 'Light'},
+    {id: 42, deployment: ['Crucible of Battle'], type: 'Light'},
+    {id: 43, deployment: ['Hammer and Anvil'], type: 'Light'},
+    {id: 45, deployment: ['Search and Destroy'], type: 'Light'},
+    {id: 46, deployment: ['Crucible of Battle'], type: 'Light'},
+    {id: 47, deployment: ['Hammer and Anvil'], type: 'Light'},
+    {id: 49, deployment: ['Tipping Point'], type: 'Heavy'},
+    {id: 50, deployment: ['Tipping Point'], type: 'Heavy'},
+    {id: 51, deployment: ['Tipping Point'], type: 'Medium'},
+    {id: 52, deployment: ['Tipping Point'], type: 'Medium'},
+    {id: 53, deployment: ['Tipping Point'], type: 'Medium'},
+    {id: 54, deployment: ['Tipping Point'], type: 'Medium'},
+    {id: 55, deployment: ['Tipping Point'], type: 'Light'},
+    {id: 56, deployment: ['Tipping Point'], type: 'Light'},
+    {id: 57, deployment: ['Sweeping Engagement'], type: 'Medium'},
 ];
 
 const uktcMaps: MapInfo[] = [
-    {id: 1, deployment: 'Sweeping Engagement'},
-    {id: 2, deployment: 'Crucible of Battle'},
-    {id: 3, deployment: 'Search and Destroy'},
-    {id: 4, deployment: 'Search and Destroy'},
-    {id: 7, deployment: 'Crucible of Battle'},
+    {id: 1, deployment: ['Sweeping Engagement']},
+    {id: 2, deployment: ['Crucible of Battle']},
+    {id: 3, deployment: ['Search and Destroy']},
+    {id: 4, deployment: ['Search and Destroy']},
+    {id: 7, deployment: ['Crucible of Battle']},
+]
 
+const gwMaps: MapInfo[] = [
+    {id: 1, deployment: ['Tipping Point', 'Hammer and Anvil', 'Search and Destroy', 'Crucible of Battle']},
+    {id: 2, deployment: ['Tipping Point', 'Search and Destroy', 'Crucible of Battle']},
+    {id: 3, deployment: ['Sweeping Engagement']},
+    {id: 4, deployment: ['Tipping Point', 'Search and Destroy', 'Crucible of Battle']},
+    {id: 5, deployment: ['Sweeping Engagement', 'Dawn of War']},
+    {id: 6, deployment: ['Tipping Point', 'Search and Destroy', 'Crucible of Battle']},
+    {id: 7, deployment: ['Tipping Point', 'Hammer and Anvil']},
+    {id: 8, deployment: ['Tipping Point', 'Hammer and Anvil', 'Crucible of Battle']},
 ]
 
 const formats: {[key: string]: { supportsWeight?: boolean }} = {
@@ -82,11 +93,12 @@ const formats: {[key: string]: { supportsWeight?: boolean }} = {
 }
 
 const App: React.FC = () => {
+    const [searchParams] = useSearchParams()
     const [deploymentFilter, setDeploymentFilter] = useState<string>('All');
     const [typeFilter, setTypeFilter] = useState<string>('All');
-    const [formatFilter, setFormatFilter] = useState<string>('WTC');
+    const paramFormat = searchParams.get('format');
+    const [formatFilter, setFormatFilter] = useState<string>(paramFormat != null ? paramFormat : 'WTC');
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(window.innerWidth > 768);
-    const [searchParams] = useSearchParams()
 
     const paramMaps = searchParams.get('maps');
 
@@ -96,7 +108,7 @@ const App: React.FC = () => {
         setFormatFilter(value);
     };
 
-    const maps = (formatFilter === 'WTC') ? wtcMaps : formatFilter === 'UKTC' ? uktcMaps : []
+    const maps = (formatFilter === 'WTC') ? wtcMaps : formatFilter === 'UKTC' ? uktcMaps : formatFilter === 'GW' ? gwMaps : []
 
     let filteredImages: MapInfo[];
 
@@ -105,9 +117,9 @@ const App: React.FC = () => {
             return maps.find(image => image.id === Number(mapId))
         }).filter(i => i !== undefined)
     } else {
-        filteredImages = maps.filter((image) => {
-            return (deploymentFilter === 'All' || image.deployment === deploymentFilter) &&
-                (typeFilter === 'All' || !formats[formatFilter].supportsWeight || image.type === typeFilter);
+        filteredImages = maps.filter((mapInfoItem) => {
+            return (deploymentFilter === 'All' || mapInfoItem.deployment.includes(deploymentFilter as Deployment)) &&
+                (typeFilter === 'All' || !formats[formatFilter].supportsWeight || mapInfoItem.type === typeFilter);
         });
     }
 
@@ -152,7 +164,7 @@ const App: React.FC = () => {
                     <Menu.Item>
                         <Menu.Header>Format</Menu.Header>
                         <Menu.Menu>
-                            {['WTC', 'UKTC'].map((option) => (
+                            {['WTC', 'UKTC', 'GW'].map((option) => (
                                 <Menu.Item key={option}>
                                     <Radio
                                         label={option}
