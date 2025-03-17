@@ -14,7 +14,7 @@ export type Deployment =
 export type Weight = 'Heavy' | 'Medium' | 'Light';
 
 export interface MapInfo {
-    id: number,
+    id: number | string,
     deployment: Deployment[],
     type?: Weight
 }
@@ -86,10 +86,65 @@ const gwMaps: MapInfo[] = [
     {id: 8, deployment: ['Tipping Point', 'Hammer and Anvil', 'Crucible of Battle']},
 ]
 
-const formats: {[key: string]: { supportsWeight?: boolean }} = {
-    WTC: { supportsWeight: true },
-    UKTC: {},
-    GW: {},
+const wtc2025Maps: MapInfo[] = [
+    { id: 'search1', deployment: ['Search and Destroy']},
+    { id: 'search2', deployment: ['Search and Destroy']},
+    { id: 'search3', deployment: ['Search and Destroy']},
+    { id: 'search45', deployment: ['Search and Destroy']},
+    { id: 'search6', deployment: ['Search and Destroy']},
+    { id: 'search7', deployment: ['Search and Destroy']},
+    { id: 'search8', deployment: ['Search and Destroy']},
+    { id: 'crucible1', deployment: ['Crucible of Battle']},
+    { id: 'crucible2', deployment: ['Crucible of Battle']},
+    { id: 'crucible3', deployment: ['Crucible of Battle']},
+    { id: 'crucible45', deployment: ['Crucible of Battle']},
+    { id: 'crucible6', deployment: ['Crucible of Battle']},
+    { id: 'crucible7', deployment: ['Crucible of Battle']},
+    { id: 'crucible8', deployment: ['Crucible of Battle']},
+    { id: 'hammer1', deployment: ['Hammer and Anvil']},
+    { id: 'hammer2', deployment: ['Hammer and Anvil']},
+    { id: 'hammer3', deployment: ['Hammer and Anvil']},
+    { id: 'hammer45', deployment: ['Hammer and Anvil']},
+    { id: 'hammer6', deployment: ['Hammer and Anvil']},
+    { id: 'hammer7', deployment: ['Hammer and Anvil']},
+    { id: 'hammer8', deployment: ['Hammer and Anvil']},
+    { id: 'tipping1', deployment: ['Tipping Point']},
+    { id: 'tipping2', deployment: ['Tipping Point']},
+    { id: 'tipping3', deployment: ['Tipping Point']},
+    { id: 'tipping45', deployment: ['Tipping Point']},
+    { id: 'tipping6', deployment: ['Tipping Point']},
+    { id: 'tipping7', deployment: ['Tipping Point']},
+    { id: 'tipping8', deployment: ['Tipping Point']},
+    { id: 'sweeping1', deployment: ['Sweeping Engagement']},
+    { id: 'sweeping2', deployment: ['Sweeping Engagement']},
+    { id: 'sweeping3', deployment: ['Sweeping Engagement']},
+    { id: 'sweeping4', deployment: ['Sweeping Engagement']},
+    { id: 'sweeping5', deployment: ['Sweeping Engagement']},
+    { id: 'sweeping6', deployment: ['Sweeping Engagement']},
+    { id: 'dawn1', deployment: ['Dawn of War']},
+    { id: 'dawn2', deployment: ['Dawn of War']},
+    { id: 'dawn3', deployment: ['Dawn of War']},
+    { id: 'dawn4', deployment: ['Dawn of War']},
+    { id: 'dawn5', deployment: ['Dawn of War']},
+    { id: 'dawn6', deployment: ['Dawn of War']},
+
+]
+
+const formats: {[key: string]: { supportsWeight?: boolean, folderKey: string }} = {
+    'WTC 2024': { supportsWeight: true, folderKey: 'wtc2024' },
+    'WTC 2025': { supportsWeight: false, folderKey: 'wtc2025' },
+    UKTC: {folderKey: 'uktc'},
+    GW: {folderKey: 'gw'},
+}
+
+function mapFormat(filterStr: string): MapInfo[] {
+    switch (filterStr) {
+        case 'WTC 2024': return wtcMaps;
+        case 'WTC 2025': return wtc2025Maps;
+        case 'UKTC': return uktcMaps;
+        case 'GW': return gwMaps;
+        default: return [];
+    }
 }
 
 const App: React.FC = () => {
@@ -97,7 +152,7 @@ const App: React.FC = () => {
     const [deploymentFilter, setDeploymentFilter] = useState<string>('All');
     const [typeFilter, setTypeFilter] = useState<string>('All');
     const paramFormat = searchParams.get('format');
-    const [formatFilter, setFormatFilter] = useState<string>(paramFormat != null ? paramFormat : 'WTC');
+    const [formatFilter, setFormatFilter] = useState<string>(paramFormat != null ? paramFormat : 'WTC 2025');
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(window.innerWidth > 768);
 
     const paramMaps = searchParams.get('maps');
@@ -108,7 +163,9 @@ const App: React.FC = () => {
         setFormatFilter(value);
     };
 
-    const maps = (formatFilter === 'WTC') ? wtcMaps : formatFilter === 'UKTC' ? uktcMaps : formatFilter === 'GW' ? gwMaps : []
+
+
+    const maps = mapFormat(formatFilter)
 
     let filteredImages: MapInfo[];
 
@@ -148,7 +205,7 @@ const App: React.FC = () => {
                     <Menu.Item>
                         <Menu.Header>Deployment</Menu.Header>
                         <Menu.Menu>
-                            {['All', 'Hammer and Anvil', 'Crucible of Battle', 'Search and Destroy', 'Tipping Point', 'Sweeping Engagement'].map((option) => (
+                            {['All', 'Hammer and Anvil', 'Crucible of Battle', 'Search and Destroy', 'Tipping Point', 'Sweeping Engagement', 'Dawn of War'].map((option) => (
                                 <Menu.Item key={option}>
                                     <Radio
                                         label={option}
@@ -164,7 +221,7 @@ const App: React.FC = () => {
                     <Menu.Item>
                         <Menu.Header>Format</Menu.Header>
                         <Menu.Menu>
-                            {['WTC', 'UKTC', 'GW'].map((option) => (
+                            {['WTC 2025', 'WTC 2024', 'UKTC', 'GW'].map((option) => (
                                 <Menu.Item key={option}>
                                     <Radio
                                         label={option}
@@ -203,7 +260,7 @@ const App: React.FC = () => {
                                     <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
                                         {filteredImages.map((image) => (
                                             <MapRowItem key={image.id} image={image}
-                                                        mapMaker={formatFilter.toLowerCase()}/>
+                                                        mapMaker={formats[formatFilter].folderKey}/>
                                         ))}
 
                                         {filteredImages.length == 0 && <span>No maps found :(</span>}
